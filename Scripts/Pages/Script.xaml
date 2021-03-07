@@ -1,0 +1,185 @@
+﻿<Page x:Class="Scripts.Pages.Script"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Scripts.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="600" Background="Transparent"
+      Title="Script" KeyDown="Script_KeyDown">
+    <Grid>
+        <!-- Menu -->
+        <Grid>
+            <Rectangle RadiusX="25" RadiusY="25" Fill="#C0CEE2"/>
+
+            <Rectangle RadiusX="25" RadiusY="25" Height="77" VerticalAlignment="Top" Fill="#000000"/>
+            <Rectangle Height="140" Margin="0 38 0 0" VerticalAlignment="Top" Fill="#C0CEE2"/>
+
+            <!--Кнопка на закрытие окна-->
+            <Rectangle RadiusX="50" RadiusY="50" Width="30" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 5 10 0" MouseDown="Close_Click">
+                <Rectangle.Style>
+                    <Style TargetType="{x:Type Rectangle}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Fill" Value="#FFB7B7"/>
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Fill" Value="#FF0000"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Rectangle.Style>
+            </Rectangle>
+
+            <!--Кнопка для увеличения(fullscreen)/уменьшения(normal) размера экрана-->
+            <Rectangle RadiusX="50" RadiusY="50" Width="30" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 5 50 0" MouseDown="Full_Click">
+                <Rectangle.Style>
+                    <Style TargetType="{x:Type Rectangle}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" Value="#D8EEFF"/>
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="false">
+                                <Setter Property="Fill" Value="#7DBBE8"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Rectangle.Style>
+            </Rectangle>
+
+            <!--Кнопка для скрытия окна(Не работает{разобраться})-->
+            <Rectangle RadiusX="50" RadiusY="50" Width="30" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 5 90 0" MouseDown="Hide_Click">
+                <Rectangle.Style>
+                    <Style TargetType="{x:Type Rectangle}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" Value="#C4E8F0"/>
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="false">
+                                <Setter Property="Fill" Value="#84ABB4"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Rectangle.Style>
+            </Rectangle>
+        </Grid>
+
+        <DockPanel Margin="0 56 0 20">
+            <!--Название скрипта-->
+            <Grid Height="35" DockPanel.Dock="Top" Margin="15 0 15 0" >
+                <Rectangle Fill="#A2BDE4" RadiusX="20" RadiusY="20"/>
+                <TextBlock TextAlignment="Center" HorizontalAlignment="Center" x:Name="NameScript" FontFamily="Arial" FontSize="16" VerticalAlignment="Center" />
+            </Grid>
+
+            <DockPanel DockPanel.Dock="Top">
+                <!--Компонент для свапа влево-->
+                <Grid x:Name="LeftTab" Visibility="Collapsed" DockPanel.Dock="Left" Margin="15 15 15 0" MouseDown="LeftTab_MouseDown">
+                    <Rectangle x:Name="Left_Tab" Fill="#FFC3B6" Width="30" Height="140" RadiusX="15" RadiusY="15" MouseEnter="Left_Tab_MouseEnter" MouseLeave="Left_Tab_MouseLeave"/>
+                    <Label FontFamily="Arial" FontSize="16" Content="(" VerticalAlignment="Center" HorizontalAlignment="Center" MouseEnter="Left_Tab_MouseEnter" MouseLeave="Left_Tab_MouseLeave"/>
+                </Grid>
+
+                <!--Компонент для свапа вправо-->
+                <Grid x:Name="RightTab" Visibility="Collapsed" DockPanel.Dock="Right" Margin="15 15 15 0" MouseDown="RightTab_MouseDown">
+                    <Rectangle x:Name="Right_Tab" Fill="#FFC3B6" Width="30" Height="140" RadiusX="15" RadiusY="15" MouseEnter="Right_Tab_MouseEnter" MouseLeave="Right_Tab_MouseLeave"/>
+                    <Label FontFamily="Arial" FontSize="16" Content=")" VerticalAlignment="Center" HorizontalAlignment="Center" MouseEnter="Right_Tab_MouseEnter" MouseLeave="Right_Tab_MouseLeave"/>
+                </Grid>
+
+                <!--Отображение файлов-->
+                <Grid x:Name="Files" Visibility="Collapsed" Margin="15 15 15 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--Добавить отображение названия картинок при наведении-->
+                    <Rectangle x:Name="Image_1" RadiusX="20" RadiusY="20" Grid.Column="0" Margin="15 0 7.5 0"/>
+
+                    <Rectangle x:Name="Image_2" RadiusX="20" RadiusY="20" Grid.Column="1" Margin="7.5 0 7.5 0"/>
+
+                    <Rectangle x:Name="Image_3" RadiusX="20" RadiusY="20" Grid.Column="2" Margin="7.5 0 15 0"/>
+                </Grid>
+            </DockPanel>
+
+            <DockPanel DockPanel.Dock="Top">
+                <!--Открывает папку с фото, если они есть.-->
+                <Grid x:Name="OpenFiles" Visibility="Collapsed" DockPanel.Dock="Left" Margin="15 15 15 0" MouseDown="OpenFiles_MouseDown">
+                    <Rectangle x:Name="All_more" Fill="#FFA08B" RadiusX="10" RadiusY="10" Height="21" Width="140" MouseEnter="All_more_MouseEnter" MouseLeave="All_more_MouseLeave"/>
+                    <Label FontFamily="Arial" FontSize="16" Content="Полный список..." MouseEnter="All_more_MouseEnter" MouseLeave="All_more_MouseLeave"/>
+                </Grid>
+
+                <!--Аудио-->
+                <Grid x:Name="Grid_Audio" Visibility="Collapsed" Margin="25 15 15 0">
+                    <Rectangle x:Name="Audio" Fill="#DFEEFF" RadiusX="10" RadiusY="10" MouseEnter="Audio_MouseEnter" MouseLeave="Audio_MouseLeave"/>
+                    <!--Воспроизводит аудио, если оно есть.-->
+                    <Ellipse  HorizontalAlignment="Left" VerticalAlignment="Center" Height="20" Width="20" Margin="5 0 0 0" MouseDown="Audio_Play_MouseDown">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter Property="Fill" Value="#8CC1FF"/>
+                                    </Trigger>
+
+                                    <Trigger Property="IsMouseOver" Value="false">
+                                        <Setter Property="Fill" Value="#3B8AE8"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                    <Label x:Name="Name_Audio" Margin="30 0 0 0" FontFamily="Arial" FontSize="16" Content="Audio" MouseEnter="Audio_MouseEnter" MouseLeave="Audio_MouseLeave"/>
+                    <!--Имя аудиотрека-->
+                </Grid>
+            </DockPanel>
+
+            <!--Кнопка для удаления скрипта и кнопка возврата на главную страницу-->
+            <Grid  Margin="30 10 30 0" Height="25" DockPanel.Dock="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--Кнопка удаления-->
+                <Grid Grid.Column="0" Margin="0 0 5 0" MouseDown="Delete_MouseDown">
+                    <Rectangle x:Name="Delet" Fill="#F47B7B" RadiusX="15" RadiusY="15" MouseEnter="Delet_MouseEnter" MouseLeave="Delet_MouseLeave"/>
+                    <Label FontFamily="Arial" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" Content="Удалить" MouseEnter="Delet_MouseEnter" MouseLeave="Delet_MouseLeave"/>
+                </Grid>
+
+                <!--Кнопка редоктирования-->
+                <Grid Grid.Column="1" Margin="0 0 5 0" MouseDown="Edit_MouseDown">
+                    <Rectangle x:Name="Edit" Fill="#D3EAC5" RadiusX="15" RadiusY="15" MouseEnter="Edit_MouseEnter" MouseLeave="Edit_MouseLeave"/>
+                    <Label FontFamily="Arial" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" Content="Редактировать" MouseEnter="Edit_MouseEnter" MouseLeave="Edit_MouseLeave"/>
+                </Grid>
+
+                <!--Кнопка возврата на главное меню-->
+                <Grid Grid.Column="2" Margin="5 0 0 0">
+                    <Rectangle x:Name="Exit" Fill="#F47B7B" RadiusX="15" RadiusY="15" MouseEnter="Exit_MouseEnter" MouseLeave="Exit_MouseLeave" MouseDown="Exit_MouseDown"/>
+                    <Label FontFamily="Arial" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" Content="Exit" MouseEnter="Exit_MouseEnter" MouseLeave="Exit_MouseLeave" MouseDown="Exit_MouseDown"/>
+                </Grid>
+            </Grid>
+
+            <Grid DockPanel.Dock="Bottom" Margin="15 15 15 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2.25*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <!--Текст скрипта-->
+                <Grid Visibility="Collapsed" x:Name="Script_Code" Grid.Row="0">
+                    <Rectangle Fill="#EFE1E1" RadiusX="10" RadiusY="10" Margin="0 0 0 7.5"/>
+                    <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" x:Name="Text_script" FontFamily="Arial" FontSize="16" Margin="0 0 0 7.5" MouseDoubleClick="Text_Script_MouseDoubleClick"/>
+                </Grid>
+
+                <!--Визуальная часть скрипта-->
+                <Grid Visibility="Collapsed" x:Name="Visual_Code" Grid.Row="1" Margin="0 7.5 0 0">
+                    <Rectangle Fill="#EFE1E1" RadiusX="10" RadiusY="10"/>
+                    <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" x:Name="Text_Visual_Code" FontFamily="Arial" FontSize="16" MouseDoubleClick="Text_Visual_Code_MouseDoubleClick"/>
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Page>

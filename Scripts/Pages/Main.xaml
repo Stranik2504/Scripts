@@ -1,0 +1,133 @@
+﻿<Page 
+    x:Class="Scripts.Pages.Main"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Scripts.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="600" Background="Transparent"
+      Title="Main" >
+    <Grid>
+        <!-- Menu -->
+        <Grid>
+            <Rectangle RadiusX="25" RadiusY="25" Fill="#C0CEE2"/>
+
+            <Rectangle RadiusX="25" RadiusY="25" Height="77" VerticalAlignment="Top" Fill="#000000"/>
+            <Rectangle Height="140" Margin="0 38 0 0" VerticalAlignment="Top" Fill="#C0CEE2"/>
+
+            <!--Кнопка на закрытие окна-->
+            <Ellipse Width="30" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 5 10 0" MouseDown="Close_Click">
+                <Ellipse.Style>
+                    <Style TargetType="{x:Type Ellipse}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Fill" Value="#FFB7B7"/>
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Fill" Value="#FF0000"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Ellipse.Style>
+            </Ellipse>
+
+            <!--Кнопка для увеличения(fullscreen)/уменьшения(normal) размера экрана-->
+            <Ellipse Width="30" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 5 50 0" MouseDown="Full_Click">
+                <Ellipse.Style>
+                    <Style TargetType="{x:Type Ellipse}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" Value="#D8EEFF"/>
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="false">
+                                <Setter Property="Fill" Value="#7DBBE8"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Ellipse.Style>
+            </Ellipse>
+
+            <!--Кнопка для скрытия окна(Не работает)-->
+            <Ellipse Width="30" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 5 90 0" MouseDown="Hide_Click">
+                <Ellipse.Style>
+                    <Style TargetType="{x:Type Ellipse}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" Value="#C4E8F0"/>
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="false">
+                                <Setter Property="Fill" Value="#84ABB4"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Ellipse.Style>
+            </Ellipse>
+        </Grid>
+
+        <DockPanel Margin="0 56 0 10">
+            <!--Место для ввода тегов-->
+            <TextBox DockPanel.Dock="Top" x:Name="Search" Margin="25 0 25 0" Height="42" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontFamily="Arial" FontSize="16" Style="{DynamicResource TextBox_Search}" KeyDown="Search_KeyDown">
+                <!--Список, появляющийся при нажатии правой кнопки мыши-->
+                <TextBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Отчистить" Click="MenuItem_Click_Clear"/>
+                        <MenuItem Header="Вставить" Click="MenuItem_Click_Add"/>
+                        <MenuItem Header="Копировать" Click="MenuItem_Click_Copy"/>
+                        <MenuItem Header="Отчистить фильтры" Click="MenuItem_Click_Filters_Clear"/>
+                    </ContextMenu>
+                </TextBox.ContextMenu>
+            </TextBox>
+
+            <!--Список всех тегов-->
+            <WrapPanel DockPanel.Dock="Top" x:Name="Filters" Margin="15 10 15 0"/>
+
+            <!--Кнопка на добавления скриптов(Смена окна на Edit)-->
+            <Grid DockPanel.Dock="Bottom" Margin="15 10 15 0">
+                <Rectangle x:Name="Add_Script" RadiusX="15" RadiusY="15" Fill="#D9F3C4" MouseEnter="Add_Script_MouseEnter" MouseLeave="Add_Script_MouseLeave" MouseDown="Add_Script_MouseDown"/>
+                <Label VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Добавить скрипт" FontFamily="Arial" FontSize="16" Margin="5 0 5 0" MouseEnter="Add_Script_MouseEnter" MouseLeave="Add_Script_MouseLeave" MouseDown="Add_Script_MouseDown"/>
+            </Grid>
+
+            <Grid Margin="15 10 15 0">
+                <!--Задний фон скриптов-->
+                <Rectangle Height="Auto" Fill="#D8E3F3" RadiusX="20" RadiusY="20"/>
+
+                <!--Место хранения всех скриптов-->
+                <ScrollViewer>
+                    <StackPanel x:Name="Scripting"/>
+                </ScrollViewer>
+            </Grid>
+
+        </DockPanel>
+
+        <!--Пример фильтра(используется как объект клонирования)-->
+        <Grid x:Name="Grid_Filter_0" Visibility="Collapsed" IsEnabled="True" Width="150" Height="28" Margin="5 0 0 0">
+            <Rectangle x:Name="Rectangle_Filter_1" RadiusX="15" RadiusY="15"  Fill="#F9ECFE" MouseEnter="Rectangle_Filter_MouseEnter" MouseLeave="Rectangle_Filter_MouseLeave" MouseDown="Rectangle_Filter_MouseDown"/>
+            <TextBlock x:Name="Label_Filter_1" Text="Hi" TextAlignment="Left" FontFamily="Arial" FontSize="16" Margin="5 5 5 5" MouseEnter="TextBlock_Filter_MouseEnter" MouseLeave="TextBlock_Filter_MouseLeave" MouseDown="TextBlock_Filter_MouseDown"/>
+        </Grid>
+
+        <!--Пример скрипта(используется как объект клонирования)-->
+        <Grid x:Name="Grid_Script_0" Margin="10 10 10 0" Visibility="Collapsed" Height="42" IsEnabled="True">
+            <Rectangle x:Name="Rectangle_Script_1" RadiusX="20" RadiusY="20" Fill="#A2BDE4" MouseEnter="Rectangle_Script_MouseEnter" MouseLeave="Rectangle_Script_MouseLeave" MouseDown="Rectangle_Script_MouseDown"/>
+            <TextBlock x:Name="TextBlock_Script_1" TextAlignment="Left" Text="Test" VerticalAlignment="Center" Margin="10 0 0 0" HorizontalAlignment="Left" FontFamily="Arial" FontSize="16" MouseEnter="TextBlock_Script_MouseEnter" MouseLeave="TextBlock_Script_MouseLeave" MouseDown="TextBlock_Script_MouseDown"/>
+            <Ellipse x:Name="Ellipse_Script_1" Width="30" Height="30" HorizontalAlignment="Right" Margin="0 0 10 0" MouseDown="Delete_Script_MouseDown">
+                <Ellipse.Style>
+                    <Style TargetType="{x:Type Ellipse}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" Value="#FFBEBE"/>
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="false">
+                                <Setter Property="Fill" Value="#F47B7B"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Ellipse.Style>
+            </Ellipse>
+        </Grid>
+    </Grid>
+</Page>
